@@ -41,27 +41,28 @@ export function splitString(str, p, language) {
 
   // For regular languages, pick a split where pumping CAN work
   // For non-regular languages, pick a split that exposes the violation
+  // x is always non-empty so all three segments are visible
 
   if (language === "abstar") {
-    // y = "ab" (one repeating unit) so pumping preserves (ab)* structure
+    // x = first "ab", y = second "ab" — pumping preserves (ab)* structure
     return {
-      x: "",
-      y: str.slice(0, 2),   // "ab"
-      z: str.slice(2)
+      x: str.slice(0, 2),   // "ab"
+      y: str.slice(2, 4),   // "ab"
+      z: str.slice(4)
     };
   }
 
   if (language === "anbm") {
-    // y = first 'a' — pumping adds/removes a's, still in a*b*
+    // x = first 'a', y = second 'a' — pumping adds/removes a's, still in a*b*
     return {
-      x: "",
-      y: str.slice(0, 1),   // "a"
-      z: str.slice(1)
+      x: str.slice(0, 1),
+      y: str.slice(1, 2),
+      z: str.slice(2)
     };
   }
 
   if (language === "anbn") {
-    // y = some a's only — pumping changes #a but not #b, breaks a=b
+    // x = first a, y = next a's — pumping changes #a but not #b
     return {
       x: str.slice(0, 1),
       y: str.slice(1, Math.min(p, Math.floor(str.length / 2))),
@@ -70,7 +71,7 @@ export function splitString(str, p, language) {
   }
 
   if (language === "anbncn") {
-    // y = some a's only — pumping changes #a but not #b/#c
+    // x = first a, y = next a's — pumping changes #a but not #b/#c
     return {
       x: str.slice(0, 1),
       y: str.slice(1, Math.min(p, Math.floor(str.length / 3))),
@@ -79,7 +80,7 @@ export function splitString(str, p, language) {
   }
 
   if (language === "wcwr") {
-    // y = part of the first w — pumping breaks the palindrome structure
+    // x = first char of w, y = second char — pumping breaks palindrome
     return {
       x: str.slice(0, 1),
       y: str.slice(1, 2),
@@ -87,14 +88,13 @@ export function splitString(str, p, language) {
     };
   }
 
-  // Default / custom: simple split respecting |xy| ≤ p, |y| ≥ 1
+  // Default / custom: split with x getting at least 1 char
   const xyLen = Math.min(p, str.length);
-  const yStart = Math.max(0, Math.floor(xyLen / 2));
-  const yEnd = xyLen;
+  const yEnd = Math.max(2, xyLen);
   return {
-    x: str.slice(0, yStart),
-    y: str.slice(yStart, yEnd) || str.slice(0, 1),
-    z: str.slice(yEnd || 1)
+    x: str.slice(0, 1),
+    y: str.slice(1, yEnd),
+    z: str.slice(yEnd)
   };
 }
 
