@@ -18,7 +18,7 @@ function Simulator() {
   const [p, setP] = useState(3);
   const [string, setString] = useState("");
   const [split, setSplit] = useState(null);
-  const [i, setI] = useState(0);
+  const [i, setI] = useState(2);
   const [pumped, setPumped] = useState("");
   const [result, setResult] = useState(null);
 

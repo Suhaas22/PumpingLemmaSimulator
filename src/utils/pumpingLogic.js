@@ -112,11 +112,13 @@ export function checkLanguage(str, language, customRegex) {
   let c = (str.match(/c/g) || []).length;
 
   if (language === "anbn") {
-    return a === b;
+    // Must be a's followed by b's, AND equal count
+    return /^a+b+$/.test(str) && a === b;
   }
 
   if (language === "anbncn") {
-    return a === b && b === c;
+    // Must be a's then b's then c's, AND equal counts
+    return /^a+b+c+$/.test(str) && a === b && b === c;
   }
 
   if (language === "abstar") {
