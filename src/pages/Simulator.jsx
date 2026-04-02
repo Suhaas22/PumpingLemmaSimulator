@@ -62,7 +62,7 @@ function Simulator() {
 
   const handleSplit = () => {
     if (!string) return;
-    const sp = splitString(string, p);
+    const sp = splitString(string, p, language);
     setSplit(sp);
     setPumped("");
     setResult(null);

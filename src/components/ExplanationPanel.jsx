@@ -73,12 +73,12 @@ function ExplanationPanel({ result, customRegex }) {
         <div className="result-content accept">
           <span className="result-icon">✅</span>
           <div className="result-text">
-            <span className="result-title">Language Satisfies Pumping Lemma</span>
+            <span className="result-title">Pumped String Accepted</span>
             <span className="result-desc">
-              The pumped string still belongs to the language.
+              The pumped string xy<sup>i</sup>z still belongs to the language.
               {customRegex
                 ? " It matches the provided regex pattern."
-                : " This pumping does not contradict regularity."
+                : " This pumping is consistent with regularity — the language may be regular."
               }
             </span>
           </div>
@@ -87,12 +87,12 @@ function ExplanationPanel({ result, customRegex }) {
         <div className="result-content reject">
           <span className="result-icon">❌</span>
           <div className="result-text">
-            <span className="result-title">Language Violates Pumping Lemma</span>
+            <span className="result-title">Pumped String Rejected</span>
             <span className="result-desc">
-              The pumped string no longer belongs to the language.
+              The pumped string xy<sup>i</sup>z no longer belongs to the language.
               {customRegex
                 ? " It no longer matches the provided regex pattern."
-                : " This is evidence that the language is not regular."
+                : " This decomposition breaks membership — evidence the language is not regular."
               }
             </span>
           </div>
